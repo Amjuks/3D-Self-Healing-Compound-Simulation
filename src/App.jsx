@@ -288,14 +288,15 @@ let gridHeightOccupied;
 const App = () => {
   const mountRef = useRef(null);
   const [gridWidth, setGridWidth] = useState(3);
-  const [gridHeight, setGridHeight] = useState(3);
+  const [gridHeight, setGridHeight] = useState(1);
   const [gridDepth, setGridDepth] = useState(2);
   const [radius, setRadius] = useState(10);
   const [speed, setSpeed] = useState(7);
   const [healingDuration, setHealingDuration] = useState(3);
   const [breakingDuration, setBreakingDuration] = useState(1);
   const [instability, setInstability] = useState(0.1);
-  
+  const [breakBonds, setBreakBonds] = useState(0.3);
+
   useEffect(() => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -351,9 +352,9 @@ const App = () => {
 
       // Function to randomly update lines
       const updateRandomLines = () => {
-        const minLinesToUpdate = Math.floor(allLines.length * 0.1);
-        const maxLinesToUpdate = Math.floor(allLines.length * 0.2);
-        const numberOfLinesToUpdate = Math.floor(Math.random() * (maxLinesToUpdate - minLinesToUpdate + 1)) + minLinesToUpdate;
+        const numberOfLinesToUpdate = Math.floor(allLines.length * breakBonds);
+        console.log('Updating ', numberOfLinesToUpdate, ' / ',  allLines.length,'lines');
+        console.log((allLines.length * breakBonds));
 
         const linesToUpdate = [];
         for (let i = 0; i < numberOfLinesToUpdate; i++) {
@@ -408,7 +409,7 @@ const App = () => {
     return () => {
       mountRef.current.removeChild(renderer.domElement);
     };
-  }, [gridWidth, gridHeight, gridDepth, radius, speed, healingDuration, breakingDuration, instability]);
+  }, [gridWidth, gridHeight, gridDepth, radius, speed, healingDuration, breakingDuration, instability, breakBonds]);
 
   return (
     <div>
@@ -421,6 +422,7 @@ const App = () => {
         healingDuration={healingDuration}
         breakingDuration={breakingDuration}
         instability={instability}
+        breakBonds={breakBonds}
         setGridWidth={setGridWidth}
         setGridHeight={setGridHeight}
         setGridDepth={setGridDepth}
@@ -429,6 +431,7 @@ const App = () => {
         setHealingDuration={setHealingDuration}
         setBreakingDuration={setBreakingDuration}
         setInstability={setInstability}
+        setBreakBonds={setBreakBonds}
       />
       <div ref={mountRef} />
     </div>

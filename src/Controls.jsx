@@ -1,6 +1,6 @@
 // import React from 'react';
 
-const Controls = ({ gridWidth, gridHeight, gridDepth, radius, speed, healingDuration, breakingDuration, instability, setGridWidth, setGridHeight, setGridDepth, setRadius, setSpeed, setHealingDuration, setBreakingDuration, setInstability }) => {
+const Controls = ({ gridWidth, gridHeight, gridDepth, radius, speed, healingDuration, breakingDuration, instability, breakBonds, setGridWidth, setGridHeight, setGridDepth, setRadius, setSpeed, setHealingDuration, setBreakingDuration, setInstability, setBreakBonds }) => {
   return (
     <div className="controls">
       <label>
@@ -34,6 +34,10 @@ const Controls = ({ gridWidth, gridHeight, gridDepth, radius, speed, healingDura
       <label>
         Instability: <span>{instability * 10}</span>
         <input type="range" step="0.1" min="0.1" max="5.0" value={instability} onChange={(e) => setInstability(Number(e.target.value))} />
+      </label>
+      <label>
+        Break Bonds: <span>{breakBonds * 100}%</span>
+        <input type="range" step="0.01" min="0.01" max="1.00" value={breakBonds} onChange={(e) => setBreakBonds(Number(e.target.value))} />
       </label>
     </div>
   );
