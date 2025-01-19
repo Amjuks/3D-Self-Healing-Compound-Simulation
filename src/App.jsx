@@ -81,27 +81,6 @@ function getHexagonGridCoordinates(gridWidth, gridHeight, gridDepth, radius) {
   return uniqueLineCoordinates;
 }
 
-function prettyPrintCoordinates(coordinateList) {
-  console.clear();
-  if (!Array.isArray(coordinateList) || coordinateList.length === 0) {
-    console.log('The provided list is empty or not a valid array.');
-    return;
-  }
-
-  console.log('Coordinates List:');
-  coordinateList.forEach((coordinates, index) => {
-    console.log(`Line ${index + 1}:`);
-    if (!Array.isArray(coordinates) || coordinates.length !== 3) {
-      console.log(`  Item ${index + 1}: Invalid coordinates`);
-    } else {
-      let [x1, y1, z1] = coordinates[0].map(coord => Math.round(coord));
-      let [x2, y2, z2] = coordinates[1].map(coord => Math.round(coord));
-
-      console.log(`[${x1},${y1},${z1}] -> [${x2},${y2},${z2}]`);
-    }
-  });
-}
-
 /**
  * Function to get all line coordinates for a hexagon.
  */
@@ -132,8 +111,6 @@ function getHexagonLineCoordinates(centerX, centerY, centerZ, radius) {
 function removeDuplicateLines(lines, tolerance = 1e-10) {
   const uniqueLines = new Set();
 
-  console.log("Original number of lines:", lines.length);
-
   function normalizeCoordinate(coord) {
     return coord.map(value => Math.round(value / tolerance) * tolerance);
   }
@@ -152,8 +129,6 @@ function removeDuplicateLines(lines, tolerance = 1e-10) {
   }
 
   const finalLines = Array.from(uniqueLines).map(line => JSON.parse(line));
-  console.log("Final number of lines:", finalLines.length);
-
   return finalLines;
 }
 
@@ -314,12 +289,12 @@ const App = () => {
   const mountRef = useRef(null);
   const [gridWidth, setGridWidth] = useState(3);
   const [gridHeight, setGridHeight] = useState(3);
-  const [gridDepth, setGridDepth] = useState(4);
+  const [gridDepth, setGridDepth] = useState(2);
   const [radius, setRadius] = useState(10);
   const [speed, setSpeed] = useState(7);
   const [healingDuration, setHealingDuration] = useState(3);
   const [breakingDuration, setBreakingDuration] = useState(1);
-  const [instability, setInstability] = useState(1);
+  const [instability, setInstability] = useState(0.1);
   
   useEffect(() => {
     const width = window.innerWidth;
@@ -409,12 +384,10 @@ const App = () => {
         camera.position.z = Math.sin(time * (speed / 10)) * (gridDepthOccupied * 2);
 
         // Dynamic camera target
-        const targetX = centerX + Math.sin(time * (instability / 10)) * gridLength;
-        const targetY = centerY + Math.sin(time * (instability / 10)) * gridHeightOccupied;
-        const targetZ = centerZ + Math.cos(time * (instability / 10)) * (gridDepthOccupied * 0.5);
+        const targetX = centerX + Math.sin(time * instability) * gridLength;
+        const targetY = centerY + Math.sin(time * instability) * gridHeightOccupied;
+        const targetZ = centerZ + Math.cos(time * instability) * (gridDepthOccupied * 0.5);
         camera.lookAt(new THREE.Vector3(targetX, targetY, targetZ));
-
-        console.log("Instability: ", (instability / 10));
 
         requestAnimationFrame(animateCamera);
       };

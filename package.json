@@ -1,12 +1,14 @@
 {
-  "name": "r3f",
+  "name": "3d-self-healing-compound-simulation",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://amjuks.github.io/3D-Self-Healing-Compound-Simulation/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -32,8 +32,8 @@ const Controls = ({ gridWidth, gridHeight, gridDepth, radius, speed, healingDura
         <input type="range" step="0.1" min="0.1" max="5" value={breakingDuration} onChange={(e) => setBreakingDuration(Number(e.target.value))} />
       </label>
       <label>
-        Instability: <span>{instability}</span>
-        <input type="range" step="1" min="1" max="10" value={instability} onChange={(e) => setInstability(Number(e.target.value))} />
+        Instability: <span>{instability * 10}</span>
+        <input type="range" step="0.1" min="0.1" max="5.0" value={instability} onChange={(e) => setInstability(Number(e.target.value))} />
       </label>
     </div>
   );
